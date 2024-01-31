@@ -31,7 +31,6 @@ public class CourseController {
 
     private final CourseRepository courseRepository;
 
-    // @RequestMapping(method = RequestMethod.GET)
     @GetMapping
     public List<Course> list() {
         return courseRepository.findAll();
@@ -44,17 +43,12 @@ public class CourseController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // @RequestMapping(method = RequestMethod.POST)
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Course create(@RequestBody @NonNull @Valid Course course) {
-        // return ResponseEntity
-        // .status(HttpStatus.CREATED)
-        // .body(courseRepository.save(course));
         return courseRepository.save(course);
     }
 
-    // @RequestMapping(method = RequestMethod.PUT)
     @PutMapping("/{id}")
     public ResponseEntity<Course> update(@PathVariable @NonNull @Positive Long id,
             @RequestBody @NonNull @Valid Course course) {
@@ -68,7 +62,6 @@ public class CourseController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // @RequestMapping(method = RequestMethod.DELETE)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable @NonNull @Positive Long id) {
         return courseRepository.findById(id)

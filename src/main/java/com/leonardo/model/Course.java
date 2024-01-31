@@ -17,7 +17,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
-// @Table(name = "Course")
 @Data
 @Entity
 @SQLDelete(sql = "UPDATE Course SET status = 'Deactive' WHERE id = ?")
