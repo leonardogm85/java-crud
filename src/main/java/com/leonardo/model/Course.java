@@ -4,7 +4,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,7 +20,7 @@ import lombok.Data;
 @Data
 @Entity
 @SQLDelete(sql = "UPDATE Course SET status = 'Deactive' WHERE id = ?")
-@Where(clause = "status = 'Active'")
+@SQLRestriction("status = 'Active'")
 public class Course {
 
     @Id
