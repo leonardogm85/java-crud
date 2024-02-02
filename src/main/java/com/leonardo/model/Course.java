@@ -7,6 +7,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -46,6 +47,7 @@ public class Course {
     @Length(max = 10)
     @Pattern(regexp = "Active|Deactive")
     @Column(length = 10, nullable = false)
+    @JsonIgnore
     private String status = "Active";
 
 }
