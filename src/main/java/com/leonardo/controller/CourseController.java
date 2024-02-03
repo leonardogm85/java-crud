@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.leonardo.model.Course;
+import com.leonardo.dto.CourseDTO;
 import com.leonardo.service.CourseService;
 
 import jakarta.validation.Valid;
@@ -33,24 +33,24 @@ public class CourseController {
     }
 
     @GetMapping
-    public List<Course> list() {
+    public List<CourseDTO> list() {
         return courseService.list();
     }
 
     @GetMapping("/{id}")
-    public Course loadById(@PathVariable @NonNull @Positive Long id) {
+    public CourseDTO loadById(@PathVariable @NonNull @Positive Long id) {
         return courseService.loadById(id);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Course create(@RequestBody @NonNull @Valid Course course) {
-        return courseService.create(course);
+    public CourseDTO create(@RequestBody @NonNull @Valid CourseDTO dto) {
+        return courseService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public Course update(@PathVariable @NonNull @Positive Long id, @RequestBody @NonNull @Valid Course course) {
-        return courseService.update(id, course);
+    public CourseDTO update(@PathVariable @NonNull @Positive Long id, @RequestBody @NonNull @Valid CourseDTO dto) {
+        return courseService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")
