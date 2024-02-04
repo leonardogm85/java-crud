@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.leonardo.enums.Category;
 import com.leonardo.model.Course;
 import com.leonardo.repository.CourseRepository;
 
@@ -19,10 +20,11 @@ public class CrudSpringApplication {
     CommandLineRunner initDatabase(CourseRepository courseRepository) {
         return args -> {
             courseRepository.deleteAll();
-            
+
             Course course = new Course();
+
             course.setName("Angular");
-            course.setCategory("Front-end");
+            course.setCategory(Category.FRONT_END);
 
             courseRepository.save(course);
         };

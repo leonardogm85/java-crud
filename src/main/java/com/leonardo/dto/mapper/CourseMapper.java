@@ -3,6 +3,7 @@ package com.leonardo.dto.mapper;
 import org.springframework.stereotype.Component;
 
 import com.leonardo.dto.CourseDTO;
+import com.leonardo.enums.Category;
 import com.leonardo.model.Course;
 
 @Component
@@ -13,7 +14,7 @@ public class CourseMapper {
             return null;
         }
 
-        return new CourseDTO(course.getId(), course.getName(), course.getCategory());
+        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue());
     }
 
     public Course toEntity(CourseDTO dto) {
@@ -28,9 +29,21 @@ public class CourseMapper {
         }
 
         course.setName(dto.name());
-        course.setCategory(dto.category());
+        course.setCategory(convertCategoryValue(dto.category()));
 
         return course;
+    }
+
+    public Category convertCategoryValue(String value) {
+        if (value == null) {
+            return null;
+        }
+
+        return switch (value) {
+            case "frontend" -> Category.FRONT_END;
+            case "backend" -> Category.BACK_END;
+            default -> throw new IllegalArgumentException("Invalid category: " + value);
+        };
     }
 
 }
