@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import com.leonardo.dto.CourseDTO;
 import com.leonardo.dto.mapper.CourseMapper;
 import com.leonardo.exception.RecordNotFoundException;
+import com.leonardo.model.Course;
 import com.leonardo.repository.CourseRepository;
 
 import jakarta.validation.Valid;
@@ -51,6 +52,9 @@ public class CourseService {
                 .map(entity -> {
                     entity.setName(dto.name());
                     entity.setCategory(courseMapper.convertCategoryValue(dto.category()));
+                    Course course = courseMapper.toEntity(dto);
+                    entity.getLessons().clear();
+                    course.getLessons().forEach(entity.getLessons()::add);
                     return courseMapper.toDTO(courseRepository.save(entity));
                 }).orElseThrow(() -> new RecordNotFoundException(id));
     }

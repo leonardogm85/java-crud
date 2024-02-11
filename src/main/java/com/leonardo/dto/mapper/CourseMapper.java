@@ -9,6 +9,7 @@ import com.leonardo.dto.CourseDTO;
 import com.leonardo.dto.LessonDTO;
 import com.leonardo.enums.Category;
 import com.leonardo.model.Course;
+import com.leonardo.model.Lesson;
 
 @Component
 public class CourseMapper {
@@ -18,35 +19,46 @@ public class CourseMapper {
             return null;
         }
 
-        List<LessonDTO> lessons = course
+        List<LessonDTO> lessonsDto = course
                 .getLessons()
                 .stream()
-                .map(lesson -> new LessonDTO(
-                        lesson.getId(),
-                        lesson.getName(),
-                        lesson.getYoutubeUrl()))
+                .map(lessonDto -> new LessonDTO(
+                        lessonDto.getId(),
+                        lessonDto.getName(),
+                        lessonDto.getYoutubeUrl()))
                 .collect(Collectors.toList());
 
         return new CourseDTO(
                 course.getId(),
                 course.getName(),
                 course.getCategory().getValue(),
-                lessons);
+                lessonsDto);
     }
 
-    public Course toEntity(CourseDTO dto) {
-        if (dto == null) {
+    public Course toEntity(CourseDTO courseDto) {
+        if (courseDto == null) {
             return null;
         }
 
         Course course = new Course();
 
-        if (dto.id() != null) {
-            course.setId(dto.id());
+        if (courseDto.id() != null) {
+            course.setId(courseDto.id());
         }
 
-        course.setName(dto.name());
-        course.setCategory(convertCategoryValue(dto.category()));
+        course.setName(courseDto.name());
+        course.setCategory(convertCategoryValue(courseDto.category()));
+
+        List<Lesson> lessons = courseDto.lessons().stream().map(lessonDto -> {
+            Lesson lesson = new Lesson();
+            lesson.setId(lessonDto.id());
+            lesson.setName(lessonDto.name());
+            lesson.setYoutubeUrl(lessonDto.youtubeUrl());
+            lesson.setCourse(course);
+            return lesson;
+        }).collect(Collectors.toList());
+
+        course.setLessons(lessons);
 
         return course;
     }
