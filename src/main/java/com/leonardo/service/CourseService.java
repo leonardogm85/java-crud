@@ -3,18 +3,23 @@ package com.leonardo.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.leonardo.dto.CourseDTO;
+import com.leonardo.dto.PageDTO;
 import com.leonardo.dto.mapper.CourseMapper;
 import com.leonardo.exception.RecordNotFoundException;
 import com.leonardo.model.Course;
 import com.leonardo.repository.CourseRepository;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Validated
 @Service
@@ -28,12 +33,17 @@ public class CourseService {
         this.courseMapper = courseMapper;
     }
 
-    public List<CourseDTO> list() {
-        return courseRepository
-                .findAll()
-                .stream()
+    public PageDTO<CourseDTO> list(@PositiveOrZero int pageNumber, @Positive @Max(100) int pageSize) {
+        Page<Course> page = courseRepository
+                .findAll(PageRequest.of(pageNumber, pageSize));
+        List<CourseDTO> dtos = page
+                .get()
                 .map(courseMapper::toDTO)
                 .collect(Collectors.toList());
+        return new PageDTO<CourseDTO>(
+                dtos,
+                page.getTotalElements(),
+                page.getTotalPages());
     }
 
     public CourseDTO loadById(@NonNull @Positive Long id) {
