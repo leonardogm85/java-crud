@@ -24,7 +24,7 @@ public class CrudSpringApplication {
         return args -> {
             courseRepository.deleteAll();
 
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 20; i++) {
                 Course course = new Course();
                 course.setName("Angular" + i);
                 course.setCategory(Category.FRONT_END);
