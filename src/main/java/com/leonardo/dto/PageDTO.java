@@ -2,5 +2,5 @@ package com.leonardo.dto;
 
 import java.util.List;
 
-public record PageDTO<T>(List<T> courses, long totalElements, int totalPages) {
+public record PageDTO<T>(List<T> records, long totalElements, int totalPages) {
 }
