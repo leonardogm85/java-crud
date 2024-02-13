@@ -22,13 +22,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@SQLDelete(sql = "UPDATE Course SET status = 'deactive' WHERE id = ?")
+@SQLDelete(sql = "UPDATE course SET status = 'deactive' WHERE id = ?")
 @SQLRestriction("status = 'active'")
 public class Course {
 
